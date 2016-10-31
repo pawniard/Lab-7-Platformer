@@ -4,8 +4,10 @@
 .background td { padding: 0;          }
 .lava          { background: #00ff00 }
 .wall          { background: #000000;   }
+
 .actor  	   { position: absolute;  }
 .player 	   { background: #a6a6a6; }
+.coin 		   { background: gray; }
 
 .game {
   overflow: hidden;
