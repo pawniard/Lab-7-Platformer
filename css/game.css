@@ -8,6 +8,7 @@
 .actor  	   { position: absolute;  }
 .player 	   { background: #a6a6a6; }
 .coin 		   { background: gray; }
+.cloud         { background: #302A33; }
 
 .game {
   overflow: hidden;

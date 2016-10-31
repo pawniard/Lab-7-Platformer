@@ -1,7 +1,8 @@
 // Map each class of actor to a character
 var actorChars = {
   "@": Player,
-  "o": Coin // A coin will wobble up and down
+  "o": Coin, // A coin will wobble up and down
+  'D': Cloud
 };
 
 function Level(plan) {
@@ -82,6 +83,13 @@ function Coin(pos) {
   this.wobble = Math.random() * Math.PI * 2;
 }
 Coin.prototype.type = "coin";
+
+function Cloud(pos) {
+  this.basepos = this.pos = pos.plus(new Vector(0.3, 0.2));
+  this.size = new Vector(0.5, 0.5);
+  this.wobble = Math.random() * Math.PI * 4;
+}
+Cloud.prototype.type = "cloud";
 
 // Helper function to easily create an element of a type provided 
 // and assign it a class.
@@ -246,6 +254,13 @@ Coin.prototype.act = function(step) {
   this.pos = this.basePos.plus(new Vector(0, wobblePos));
 };
 
+Cloud.prototype.act = function(step) {
+  wobbleSpeed -= 5;
+  this.wobble += step * wobbleSpeed;
+  var wobblePos = Math.cos(this.wobble) * wobbleDist;
+  this.pos = this.basePos.plus(new Vector(0, wobblePos));
+};
+
 var maxStep = 0.05;
 
 var playerXSpeed = 7;
@@ -298,6 +313,11 @@ Player.prototype.act = function(step, level, keys) {
 
 Level.prototype.playerTouched = function(type, actor) {
   if (type == "coin") {
+    this.actors = this.actors.filter(function(other) {
+      return other != actor;
+    });
+  }
+  if (type == "cloud") {
     this.actors = this.actors.filter(function(other) {
       return other != actor;
     });
